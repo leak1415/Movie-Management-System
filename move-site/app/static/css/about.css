@@ -3,8 +3,8 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f5f5f5;
-    color: #333;
+    background-color: #121212; /* Changed to dark background */
+    color: #f0f0f0; /* Light text for contrast */
 }
 
 .contain {
@@ -22,7 +22,7 @@ body {
 .header h1 {
     font-size: 3rem;
     margin-bottom: 10px;
-    color: #1a1a1a;
+    color: #ffffff; /* White header text */
 }
 
 /* ===== Navigation Buttons ===== */
@@ -37,7 +37,7 @@ body {
 .btn-about {
     text-decoration: none;
     padding: 10px 25px;
-    background-color: #3498db;
+    background-color: #1f6feb; /* Blue accent for dark mode */
     color: #fff;
     border-radius: 5px;
     transition: background-color 0.3s;
@@ -45,7 +45,7 @@ body {
 }
 
 .btn-about:hover {
-    background-color: #2980b9;
+    background-color: #1158c7;
 }
 
 .btn-about.active {
@@ -60,19 +60,20 @@ main {
 }
 
 .text-1 {
-    background-color: #fff;
+    background-color: #1e1e1e; /* Dark card background */
     padding: 20px 25px;
     border-radius: 8px;
-    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 3px 8px rgba(255, 255, 255, 0.05);
 }
 
 .text-1 h2 {
     margin-top: 0;
-    color: #2c3e50;
+    color: #4dabf7; /* Accent color for headings */
 }
 
 .text-1 p {
     line-height: 1.6;
+    color: #dcdcdc;
 }
 
 /* ===== Footer Sections ===== */
@@ -84,19 +85,20 @@ main {
 
 .text-1footer {
     flex: 1 1 30%;
-    background-color: #fff;
+    background-color: #1e1e1e; /* Match main box color */
     padding: 15px 20px;
     border-radius: 8px;
-    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 3px 8px rgba(255, 255, 255, 0.05);
 }
 
 .text-1footer h3 {
     margin-top: 0;
-    color: #34495e;
+    color: #58a6ff;
 }
 
 .text-1footer p {
     line-height: 1.5;
+    color: #cfcfcf;
 }
 
 /* ===== Responsive ===== */

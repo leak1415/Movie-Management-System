@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ movie.movie_name }} - Details</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/view.css') }}">
 </head>
 
 <body>
@@ -18,21 +18,41 @@
         style="max-width:300px; height:auto;">
     {% endif %}
 
-<ul>
-    <li><strong>Type:</strong> {{ movie.type }}</li>
-    <li><strong>Price:</strong> ${{ movie.price }}</li>
-    <li><strong>Quality:</strong> {{ movie.quality }}</li>
-    <li><strong>Rating:</strong> {{ movie.rating or 'N/A' }}</li>
-    <li><strong>Year:</strong> {{ movie.year or 'N/A' }}</li>
-    <li><strong>Director:</strong> {{ movie.director or 'N/A' }}</li>
-    <li><strong>Role:</strong> {{ movie.role or 'N/A' }}</li>
-    <li><strong>Time Watching:</strong> {{ movie.time_watching or 'N/A' }} mins</li>
-    <li><strong>Hall Name:</strong> {{ movie.hall_name or 'N/A' }}</li>
-    <li><strong>Chair Number:</strong> {{ movie.chair_number or 'N/A' }}</li>
-</ul>
+    <!-- Image Upload Form -->
+    <div class="upload-section">
+        <form id="upload-form" method="POST"
+            action="{{ url_for('movie_fr_bp.upload_image', movie_id=movie.movie_id) }}"
+            enctype="multipart/form-data">
+            <input type="file" name="image" id="image-input" accept="image/*">
+            <button type="submit">Upload</button>
+        </form>
+    </div>
 
+    <ul>
+        <li><strong>Type:</strong> {{ movie.type }}</li>
+        <li><strong>Price:</strong> ${{ movie.price }}</li>
+        <li><strong>Quality:</strong> {{ movie.quality }}</li>
+        <li><strong>Rating:</strong> {{ movie.rating or 'N/A' }}</li>
+        <li><strong>Year:</strong> {{ movie.year or 'N/A' }}</li>
+        <li><strong>Director:</strong> {{ movie.director or 'N/A' }}</li>
+        <li><strong>Role:</strong> {{ movie.role or 'N/A' }}</li>
+        <li><strong>Time Watching:</strong> {{ movie.time_watching or 'N/A' }} mins</li>
+        <li><strong>Hall Name:</strong> {{ movie.hall_name or 'N/A' }}</li>
+        <li><strong>Chair Number:</strong> {{ movie.chair_number or 'N/A' }}</li>
+    </ul>
 
     <a href="{{ url_for('movie_fr_bp.edit_movie', movie_id=movie.movie_id) }}">Edit Movie</a>
+
+    <!-- Optional: auto-submit when a file is selected -->
+    <script>
+        const input = document.getElementById('image-input');
+        const form = document.getElementById('upload-form');
+        input?.addEventListener('change', () => {
+            if (input.files && input.files.length > 0) {
+                form.submit();
+            }
+        });
+    </script>
 </body>
 
 </html>

@@ -1,82 +1,118 @@
-/* General page styling */
+/* ===== Page & Form container (dark mode) ===== */
 body {
   font-family: Arial, sans-serif;
-  background-color: #f4f7f8;
+  background-color: #121212;
+  margin: 0;
+  color: #f0f0f0;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  margin: 0;
+  min-height: 100vh;
+  padding: 20px;
 }
 
-/* Container box */
+/* ===== Edit container ===== */
 .edit-container {
-  background: #ffffff;
-  padding: 30px 40px;
+  background-color: #1e1e1e;
+  padding: 28px 36px;
   border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  width: 400px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+  width: 800px; /* wider for two-column layout */
+  box-sizing: border-box;
 }
 
 /* Heading */
 .edit-container h1 {
   text-align: center;
-  margin-bottom: 25px;
-  color: #333;
+  margin-bottom: 24px;
+  color: #ffffff;
+  font-size: 1.8rem;
 }
 
-/* Form styling */
+/* ===== Form layout: two columns ===== */
 .edit-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+/* Each field container */
+.form-field {
+  flex: 1 1 calc(50% - 10px); /* two fields per row with spacing */
   display: flex;
   flex-direction: column;
 }
 
-.edit-form label {
+/* Label above input */
+.form-field label {
+  font-weight: 700;
+  color: #dcdcdc;
   margin-bottom: 6px;
-  font-weight: bold;
-  color: #444;
+  font-size: 0.95rem;
 }
 
-.edit-form input {
-  padding: 10px;
-  margin-bottom: 15px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 14px;
-  transition: border-color 0.2s;
+/* Inputs styling */
+.form-field input,
+.edit-form select,
+.edit-form textarea {
+  background-color: #2c2c2c;
+  color: #f5f5f5;
+  padding: 10px 12px;
+  border: 1px solid #444;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  box-sizing: border-box;
+  transition: border-color 0.15s, background-color 0.15s;
 }
 
-.edit-form input:focus {
-  border-color: #007bff;
+/* Focus state */
+.form-field input:focus,
+.edit-form select:focus,
+.edit-form textarea:focus {
   outline: none;
+  border-color: #4dabf7;
+  background-color: #333;
+  box-shadow: 0 0 0 3px rgba(77, 173, 247, 0.08);
 }
 
 /* Buttons */
 .btn-update {
-  background-color: #007bff;
-  color: white;
-  padding: 10px;
+  width: 100%;
+  background-color: #1f6feb;
+  color: #fff;
+  padding: 12px;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
-  font-weight: bold;
-  transition: background-color 0.3s;
+  font-weight: 700;
+  font-size: 1rem;
+  margin-top: 16px;
+  transition: background-color 0.18s;
 }
-
 .btn-update:hover {
-  background-color: #0056b3;
+  background-color: #1158c7;
 }
 
 /* Back link */
 .back-link {
   display: block;
   text-align: center;
-  margin-top: 20px;
-  color: #007bff;
+  margin-top: 14px;
+  color: #58a6ff;
   text-decoration: none;
-  font-weight: bold;
+  font-weight: 700;
 }
-
 .back-link:hover {
   text-decoration: underline;
+}
+
+/* Responsive: single column on small screens */
+@media (max-width: 768px) {
+  .edit-container {
+    width: 94%;
+    padding: 20px;
+  }
+  .form-field {
+    flex: 1 1 100%;
+  }
 }

@@ -8,10 +8,12 @@
 
 body {
   font-family: 'Segoe UI', sans-serif;
-
-  background-image: url(../img/background.jpg);
-  /* color: #e0e0e0;  */
+  background-image: url(../images/image.png);
   line-height: 1.6;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
 }
 
 /* ===== Header ===== */
@@ -35,15 +37,25 @@ header h2 {
 nav.list-btn a {
   color: #e0e0e0;
   text-decoration: none;
-  margin: 0 15
+  margin: 0 15px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+nav.list-btn a:hover {
+  color: #0f111a;
+  background-color: #00e5ff;
 }
 
 .btn-main {
-  /* width: 200px; */
-  /* background-color: teal; */
   padding: 10px;
   text-align: center;
-
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
 }
 
 .btn-home {
@@ -53,8 +65,30 @@ nav.list-btn a {
   padding: 10px 20px;
 }
 
+.btn-home:hover {
+  filter: brightness(0.95);
+  box-shadow: 0 6px 18px rgba(0, 229, 255, 0.35);
+}
+
 .main {
   display: flex;
   gap: 20px;
   padding: 20px;
+  min-height: 70vh;
+  align-items: center;
+  justify-content: center;
+}
+
+.text-main {
+  text-align: center;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.text-main h1 {
+  font-size: 44px;
+  line-height: 1.2;
+  color: #ffffff;
+  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.45);
+  margin-bottom: 18px;
 }

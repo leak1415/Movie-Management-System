@@ -1,23 +1,54 @@
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import (
+    Blueprint,
+    render_template,
+    request,
+    redirect,
+    url_for,
+    flash,
+    current_app,
+)
 from ..extensions import db
 from ..models.movie import Movie
+import os
+from werkzeug.utils import secure_filename
 
-movie_fr_bp = Blueprint('movie_fr_bp', __name__, url_prefix='/')
+# -----------------------------
+# Create Blueprint
+# -----------------------------
+movie_fr_bp = Blueprint("movie_fr_bp", __name__, url_prefix="/")
 
-# Home page (index.html)
-@movie_fr_bp.route('/')
+# Allowed image extensions
+ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "gif"}
+
+
+def allowed_file(filename):
+    return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
+# -----------------------------
+# Routes
+# -----------------------------
+
+
+# Home page
+@movie_fr_bp.route("/")
 def home():
     movies = Movie.query.all()
     return render_template("index.html", movies=movies)
-@movie_fr_bp.route('/about')
+
+
+# About page
+@movie_fr_bp.route("/about")
 def about():
     return render_template("about-us.html")
 
-# List movies page (optional)
-@movie_fr_bp.route('/list_movies')
+
+# List movies
+@movie_fr_bp.route("/list_movies")
 def list_movies():
     movies = Movie.query.all()
     return render_template("list-movies.html", movies=movies)
+
 
 # Add movie
 @movie_fr_bp.route("/add_movie", methods=["GET", "POST"])
@@ -57,24 +88,19 @@ def add_movie():
             role=role,
             time_watching=time_watching,
             hall_name=hall_name,
-            chair_number=chair_number
+            chair_number=chair_number,
         )
         db.session.add(new_movie)
         db.session.commit()
+        return redirect(url_for("movie_fr_bp.list_movies"))
 
-        return redirect(url_for('movie_fr_bp.list_movies'))
-
-    # Pass an empty movie dict for template
     return render_template("add-movie.html", movie={})
-
-
 
 
 # Edit movie
 @movie_fr_bp.route("/edit_movie/<int:movie_id>", methods=["GET", "POST"])
 def edit_movie(movie_id):
     movie = Movie.query.get_or_404(movie_id)
-
     if request.method == "POST":
         movie.movie_name = request.form.get("movie_name")
         movie.type = request.form.get("type")
@@ -83,12 +109,10 @@ def edit_movie(movie_id):
         except ValueError:
             return "Price must be a number.", 400
         movie.quality = request.form.get("quality")
-
         db.session.commit()
-        # Redirect to home page
-        return redirect(url_for('movie_fr_bp.home'))
-
+        return redirect(url_for("movie_fr_bp.home"))
     return render_template("edit-movie.html", movie=movie)
+
 
 # Delete movie
 @movie_fr_bp.route("/delete_movie/<int:movie_id>", methods=["POST"])
@@ -96,8 +120,8 @@ def delete_movie(movie_id):
     movie = Movie.query.get_or_404(movie_id)
     db.session.delete(movie)
     db.session.commit()
-    # Redirect to home page
-    return redirect(url_for('movie_fr_bp.home'))
+    return redirect(url_for("movie_fr_bp.home"))
+
 
 # Search movies
 @movie_fr_bp.route("/movies/search")
@@ -109,13 +133,56 @@ def search_movies():
         movies = Movie.query.all()
     return render_template("list-movies.html", movies=movies)
 
-# Filter movies by type
+
+# Filter by type
 @movie_fr_bp.route("/movies/type/<type_name>")
 def filter_by_type(type_name):
     movies = Movie.query.filter_by(type=type_name).all()
     return render_template("list-movies.html", movies=movies)
-# View single movie details
+
+
+# View movie details
 @movie_fr_bp.route("/view_movie/<int:movie_id>")
 def view_movie(movie_id):
     movie = Movie.query.get_or_404(movie_id)
     return render_template("view-movie.html", movie=movie)
+
+
+# -----------------------------
+# Image Upload Route
+# -----------------------------
+@movie_fr_bp.route("/movies/<int:movie_id>/upload-image", methods=["POST"])
+def upload_image(movie_id):
+    file = request.files.get("image")
+
+    if not file or file.filename == "":
+        flash("No file selected")
+        return redirect(url_for("movie_fr_bp.view_movie", movie_id=movie_id))
+
+    if not allowed_file(file.filename):
+        flash("File type not allowed. Allowed: " + ", ".join(ALLOWED_EXTENSIONS))
+        return redirect(url_for("movie_fr_bp.view_movie", movie_id=movie_id))
+
+    filename = secure_filename(file.filename)
+    upload_folder = os.path.join(current_app.static_folder, "images")
+    os.makedirs(upload_folder, exist_ok=True)
+
+    # Prefix with movie id to avoid overwriting
+    name, ext = os.path.splitext(filename)
+    filename = f"{movie_id}_{name}{ext}"
+    file_path = os.path.join(upload_folder, filename)
+    file.save(file_path)
+
+    # Update movie record
+    movie = Movie.query.get(movie_id)
+    if movie:
+        # Remove old image if exists
+        if movie.image:
+            old_path = os.path.join(upload_folder, movie.image)
+            if os.path.exists(old_path) and movie.image != filename:
+                os.remove(old_path)
+        movie.image = filename
+        db.session.commit()
+
+    flash("Image uploaded successfully")
+    return redirect(url_for("movie_fr_bp.view_movie", movie_id=movie_id))
