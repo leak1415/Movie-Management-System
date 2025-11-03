@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Movie List</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+
+<body>
+  <h1>🎬 Movie List</h1>
+  <a href="{{ url_for('movie_fr_bp.home') }}">Back to home</a>
+  <!-- Search Form -->
+  <form action="{{ url_for('movie_fr_bp.search_movies') }}" method="GET" style="margin-bottom: 20px;">
+    <input type="text" name="q" placeholder="Search by movie name..." value="{{ request.args.get('q', '') }}">
+  </form>
+
+  <form method="GET" action="">
+    <select name="type" onchange="if(this.value) window.location.href='/movies/type/' + this.value;">
+      <option value="">Select type</option>
+      <option value="Action" {% if request.path.endswith('Action') %}selected{% endif %}>Action</option>
+      <option value="Superhero" {% if request.path.endswith('Superhero') %}selected{% endif %}>Superhero</option>
+      <option value="Sci-Fi" {% if request.path.endswith('Sci-Fi') %}selected{% endif %}>Sci-Fi</option>
+      <option value="Animation" {% if request.path.endswith('Animation') %}selected{% endif %}>Animation</option>
+      <!-- Add more genres as needed -->
+    </select>
+  </form>
+
+  <!-- Movie Table -->
+  <table border="1" cellpadding="8">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Movie Name</th>
+        <th>Type</th>
+        <th>Price</th>
+        <th>Quality</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for movie in movies %}
+      <tr>
+        <td>{{ loop.index }}</td>
+        <td>{{ movie.movie_name }}</td>
+        <td>{{ movie.type }}</td>
+        <td>${{ movie.price }}</td>
+        <td>{{ movie.quality }}</td>
+        <td>
+          <a href="{{ url_for('movie_fr_bp.edit_movie', movie_id=movie.movie_id) }}">Edit</a>
+          <a href="{{ url_for('movie_fr_bp.view_movie', movie_id=movie.movie_id) }}">View</a>
+          <form action="{{ url_for('movie_fr_bp.delete_movie', movie_id=movie.movie_id) }}" method="POST"
+            style="display: inline;">
+            <button type="submit" onclick="return confirm('Are you sure?')">Delete</button>
+          </form>
+        </td>
+      </tr>
+      {% else %}
+      <tr>
+        <td colspan="6">No movies found.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <!-- Add Movie Link -->
+  <a href="{{ url_for('movie_fr_bp.add_movie') }}">
+    <h2>Add a New Movie</h2>
+  </a>
+</body>
+
+</html>

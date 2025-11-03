@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Add Movie</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/add.css') }}">
+</head>
+
+<body class="form-container">
+  <div class="form-box">
+    <h2>Add New Movie</h2>
+
+    <!-- Display flash messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <ul class="flashes">
+      {% for category, msg in messages %}
+      <li class="flash-{{ category|lower }}">{{ msg }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+
+    <!-- Movie form -->
+    <form action="{{ url_for('movie_fr_bp.add_movie') }}" method="POST" class="movie-form">
+      <label for="movie_name">Title:</label>
+      <input id="movie_name" type="text" name="movie_name" required>
+
+      <label for="type">Type:</label>
+      <input id="type" type="text" name="type" required>
+
+      <label for="price">Price:</label>
+      <input id="price" type="number" step="0.01" name="price" required>
+
+      <label for="quality">Quality:</label>
+      <input id="quality" type="text" name="quality" required>
+
+      <label for="rating">Rating:</label>
+      <input id="rating" type="number" step="0.1" name="rating">
+
+      <label for="year">Year:</label>
+      <input id="year" type="number" name="year">
+
+      <label for="director">Director:</label>
+      <input id="director" type="text" name="director">
+
+      <label for="role">Role:</label>
+      <input id="role" type="text" name="role">
+
+      <label for="time_watching">Time Watching (mins):</label>
+      <input id="time_watching" type="number" name="time_watching">
+
+      <label for="hall_name">Hall Name:</label>
+      <input type="text" name="hall_name" id="hall_name" value="{{ movie.hall_name or '' }}">
+
+      <label for="chair_number">Chair Number:</label>
+      <input type="text" name="chair_number" id="chair_number" value="{{ movie.chair_number or '' }}">
+
+      <button type="submit" class="btn-submit">Add Movie</button>
+    </form>
+
+    <a href="{{ url_for('movie_fr_bp.list_movies') }}" class="back-link">← Back to Movie List</a>
+  </div>
+</body>
+
+</html>

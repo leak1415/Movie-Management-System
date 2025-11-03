@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/about.css') }}">
+    <title>About Us</title>
+</head>
+
+<body>
+    <div class="contain">
+        <!-- Header / Navigation -->
+        <div class="header">
+            <h1>About Us</h1>
+            <div class="list-btn-about">
+                <a href="{{ url_for('movie_fr_bp.home') }}" class="btn-about">Home page</a>
+                <a href="{{ url_for('movie_fr_bp.about') }}" class="btn-about active">About us</a>
+                <a href="{{ url_for('movie_fr_bp.list_movies') }}" class="btn-about">List Movies</a>
+                <a href="{{ url_for('movie_fr_bp.add_movie') }}" class="btn-about">Add New Movie</a>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <main>
+            <div class="text-1">
+                <h2>Who We Are?</h2>
+                <p>
+                    We are a team of students building a simple web application
+                    to manage and display movie information. This project helps us
+                    understand the fundamentals of <strong>Flask</strong>,
+                    a lightweight web framework for Python.
+                </p>
+            </div>
+
+            <div class="text-footer">
+                <div class="text-1footer">
+                    <h3>History</h3>
+                    <p>
+                        We started this project to learn Flask, databases, and web development basics.
+                        Our goal was to create a fully functional movie management system.
+                    </p>
+                </div>
+                <div class="text-1footer">
+                    <h3>Value</h3>
+                    <p>
+                        Our application demonstrates CRUD operations, filtering, searching,
+                        and exporting data, giving practical experience with Python and MySQL.
+                    </p>
+                </div>
+                <div class="text-1footer">
+                    <h3>Mission</h3>
+                    <p>
+                        To build an educational project that allows students to interact with
+                        a simple movie database and understand web application development.
+                    </p>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

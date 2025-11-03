@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+  <title>Home Page - Movies System</title>
+</head>
+
+<body>
+  <header class="head">
+    <h2>🎬 Movies System</h2>
+    <nav class="list-btn">
+      <a href="{{ url_for('movie_fr_bp.home') }}">Home</a> |
+      <a href="{{ url_for('movie_fr_bp.about') }}">About Us</a> |
+      <a href="{{ url_for('movie_fr_bp.list_movies') }}">Movies List</a> |
+      <a href="{{ url_for('movie_fr_bp.add_movie') }}">Add Movie</a>
+    </nav>
+  </header>
+
+  <div class="main">
+    <div class="text-main">
+      <h1>Explore the World of Movies</h1>
+      <div class="btn-main">
+        <a class="btn-home" href="{{ url_for('movie_fr_bp.list_movies') }}">View Movies</a>
+        <a class="btn-home" href="{{ url_for('movie_fr_bp.add_movie') }}">Add New Movie</a>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
