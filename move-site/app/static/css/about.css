@@ -1,0 +1,107 @@
+/* ===== General Styles ===== */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+.contain {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* ===== Header ===== */
+.header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.header h1 {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    color: #1a1a1a;
+}
+
+/* ===== Navigation Buttons ===== */
+.list-btn-about {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.btn-about {
+    text-decoration: none;
+    padding: 10px 25px;
+    background-color: #3498db;
+    color: #fff;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    font-weight: bold;
+}
+
+.btn-about:hover {
+    background-color: #2980b9;
+}
+
+.btn-about.active {
+    background-color: #2ecc71;
+}
+
+/* ===== Main Content ===== */
+main {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.text-1 {
+    background-color: #fff;
+    padding: 20px 25px;
+    border-radius: 8px;
+    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+.text-1 h2 {
+    margin-top: 0;
+    color: #2c3e50;
+}
+
+.text-1 p {
+    line-height: 1.6;
+}
+
+/* ===== Footer Sections ===== */
+.text-footer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.text-1footer {
+    flex: 1 1 30%;
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+.text-1footer h3 {
+    margin-top: 0;
+    color: #34495e;
+}
+
+.text-1footer p {
+    line-height: 1.5;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+    .text-footer {
+        flex-direction: column;
+    }
+}

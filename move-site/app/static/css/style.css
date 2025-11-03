@@ -1,0 +1,143 @@
+/* Reset & basic */
+* {
+    padding: 0;
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 20px;
+    background-color: #000; /* Set background to black */
+    color: #fff; /* Default text color white */
+}
+a{
+    text-decoration: none;
+    color: #00FF00;
+}
+/* Headings */
+h1, h2 {
+    text-align: center;
+    color: #00FF00; /* Bright green for headings */
+    margin: 10px 0;
+}
+
+/* Flash messages */
+.flashes li {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+}
+.list-btn-about a{
+    text-decoration: none;
+}
+.flash-success {
+    background-color: #28a745; /* Green for success */
+    color: white;
+}
+
+.flash-error {
+    background-color: #dc3545; /* Red for errors */
+    color: white;
+}
+
+/* Forms */
+form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+label {
+    display: block;
+    color: #00FF00; /* Green labels */
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+input, select {
+    flex: 1;
+    padding: 10px 90px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background-color: #333;
+    color: #fff;
+}
+
+button, a.btn {
+    display: inline-block;
+    padding: 8px 16px;
+    margin: 2px;
+    border: none;
+    border-radius: 6px;
+    background-color: #28a745; /* Green buttons */
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+button:hover, a.btn:hover {
+    background-color: #1e7e34; /* Darker green on hover */
+}
+
+/* Tables */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #111; /* Dark table background */
+}
+
+th, td {
+    border: 1px solid #333;
+    padding: 8px;
+    text-align: center;
+    color: #fff;
+}
+
+th {
+    background-color: #222; /* Darker header */
+}
+
+/* Table hover */
+tr:nth-child(even) {
+    background-color: #1a1a1a;
+}
+
+tr:nth-child(odd) {
+    background-color: #111;
+}
+
+tr:hover {
+    background-color: #333;
+}
+tr td a{
+    color: #00FF00;
+    padding: 0 20px;
+}
+/* Card & forms box */
+.card, .form-box {
+    background-color: #111; /* Dark card background */
+}
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.movie-info p {
+    width: 300px;
+    padding: 20px 20px;
+    background-color: #06820623;
+    border: 2px salmon dashed;
+}
+.container a{
+    margin-top: 20px;
+    text-decoration: none;
+    color: #00FF00;
+}
