@@ -1,109 +1,110 @@
-/* ===== General Styles ===== */
+/* Body & container */
 body {
+    background-color: #0b0c10;
+    /* dark cinematic background */
+    color: #e0e0e0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #121212; /* Changed to dark background */
-    color: #f0f0f0; /* Light text for contrast */
 }
 
 .contain {
-    max-width: 1000px;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
 }
 
-/* ===== Header ===== */
+/* Header */
 .header {
     text-align: center;
-    margin-bottom: 40px;
+    margin-bottom: 30px;
 }
 
 .header h1 {
     font-size: 3rem;
-    margin-bottom: 10px;
-    color: #ffffff; /* White header text */
+    background: linear-gradient(90deg, #ff6f61, #ffb347);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 15px;
 }
 
-/* ===== Navigation Buttons ===== */
+/* Navigation Buttons */
 .list-btn-about {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 15px;
-    margin-bottom: 30px;
+    gap: 10px;
 }
 
 .btn-about {
+    padding: 10px 20px;
+    border-radius: 10px;
     text-decoration: none;
-    padding: 10px 25px;
-    background-color: #1f6feb; /* Blue accent for dark mode */
     color: #fff;
-    border-radius: 5px;
-    transition: background-color 0.3s;
+    background: #1e1e1e;
+    border: 2px solid #ff6f61;
+    transition: all 0.3s;
     font-weight: bold;
 }
 
 .btn-about:hover {
-    background-color: #1158c7;
+    background: #ff6f61;
+    color: #0b0c10;
 }
 
 .btn-about.active {
-    background-color: #2ecc71;
+    background: #ffb347;
+    color: #0b0c10;
+    border-color: #ffb347;
 }
 
-/* ===== Main Content ===== */
+/* Main content */
 main {
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 40px;
+    padding: 20px;
 }
 
 .text-1 {
-    background-color: #1e1e1e; /* Dark card background */
-    padding: 20px 25px;
-    border-radius: 8px;
-    box-shadow: 0px 3px 8px rgba(255, 255, 255, 0.05);
+    text-align: center;
 }
 
 .text-1 h2 {
-    margin-top: 0;
-    color: #4dabf7; /* Accent color for headings */
+    font-size: 2rem;
+    color: #ff6f61;
+    margin-bottom: 10px;
 }
 
 .text-1 p {
+    font-size: 1.1rem;
     line-height: 1.6;
-    color: #dcdcdc;
+    max-width: 800px;
+    margin: 0 auto;
 }
 
-/* ===== Footer Sections ===== */
+/* Footer text sections */
 .text-footer {
     display: flex;
+    justify-content: space-around;
     flex-wrap: wrap;
     gap: 20px;
 }
 
 .text-1footer {
-    flex: 1 1 30%;
-    background-color: #1e1e1e; /* Match main box color */
-    padding: 15px 20px;
-    border-radius: 8px;
-    box-shadow: 0px 3px 8px rgba(255, 255, 255, 0.05);
+    background: rgba(30, 30, 30, 0.95);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(255, 111, 97, 0.5);
+    flex: 1 1 250px;
 }
 
 .text-1footer h3 {
-    margin-top: 0;
-    color: #58a6ff;
+    color: #ff6f61;
+    margin-bottom: 10px;
 }
 
 .text-1footer p {
+    color: #e0e0e0;
     line-height: 1.5;
-    color: #cfcfcf;
-}
-
-/* ===== Responsive ===== */
-@media (max-width: 768px) {
-    .text-footer {
-        flex-direction: column;
-    }
 }

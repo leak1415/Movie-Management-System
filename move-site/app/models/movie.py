@@ -1,5 +1,6 @@
 from app.extensions import db
 
+
 class Movie(db.Model):
     __tablename__ = "movie"
 
@@ -15,8 +16,11 @@ class Movie(db.Model):
     director = db.Column(db.String(255), nullable=True)
     role = db.Column(db.String(255), nullable=True)
     time_watching = db.Column(db.Integer, nullable=True)  # in minutes
-    image = db.Column(db.String(255), nullable=True)      # store filename or URL
+    image = db.Column(db.String(255), nullable=True)  # store filename or URL
     chair_number = db.Column(db.Integer, nullable=True)
     hall_name = db.Column(db.String(255), nullable=True)
+    trailer_url = db.Column(db.String(255))  # YouTube link (optional)
+    trailer_file = db.Column(db.String(255))
+
     def __repr__(self):
         return f"<Movie {self.movie_name}>"

@@ -13,16 +13,29 @@ import os
 from werkzeug.utils import secure_filename
 
 # -----------------------------
-# Create Blueprint
+# Blueprint
 # -----------------------------
 movie_fr_bp = Blueprint("movie_fr_bp", __name__, url_prefix="/")
 
-# Allowed image extensions
-ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "gif"}
+# -----------------------------
+# Allowed file extensions
+# -----------------------------
+ALLOWED_IMAGE_EXTENSIONS = {"png", "jpg", "jpeg", "gif"}
+ALLOWED_VIDEO_EXTENSIONS = {"mp4", "webm", "ogg"}
 
 
-def allowed_file(filename):
-    return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
+def allowed_image_file(filename):
+    return (
+        "." in filename
+        and filename.rsplit(".", 1)[1].lower() in ALLOWED_IMAGE_EXTENSIONS
+    )
+
+
+def allowed_video_file(filename):
+    return (
+        "." in filename
+        and filename.rsplit(".", 1)[1].lower() in ALLOWED_VIDEO_EXTENSIONS
+    )
 
 
 # -----------------------------
@@ -65,17 +78,23 @@ def add_movie():
         time_watching = request.form.get("time_watching")
         hall_name = request.form.get("hall_name")
         chair_number = request.form.get("chair_number")
+        trailer_url = request.form.get("trailer_url")  # Optional YouTube link
 
         if not all([movie_name, type_, price, quality]):
-            return "Title, Type, Price, and Quality are required!", 400
+            flash("Title, Type, Price, and Quality are required!")
+            return redirect(url_for("movie_fr_bp.add_movie"))
 
         try:
             price = float(price)
             rating = float(rating) if rating else None
             year = int(year) if year else None
             time_watching = int(time_watching) if time_watching else None
+            chair_number = int(chair_number) if chair_number else None
         except ValueError:
-            return "Price, Rating, Year, and Time Watching must be numbers.", 400
+            flash(
+                "Price, Rating, Year, Time Watching, and Chair Number must be numbers."
+            )
+            return redirect(url_for("movie_fr_bp.add_movie"))
 
         new_movie = Movie(
             movie_name=movie_name,
@@ -89,9 +108,12 @@ def add_movie():
             time_watching=time_watching,
             hall_name=hall_name,
             chair_number=chair_number,
+            trailer_url=trailer_url,
         )
+
         db.session.add(new_movie)
         db.session.commit()
+        flash("Movie added successfully!")
         return redirect(url_for("movie_fr_bp.list_movies"))
 
     return render_template("add-movie.html", movie={})
@@ -104,13 +126,43 @@ def edit_movie(movie_id):
     if request.method == "POST":
         movie.movie_name = request.form.get("movie_name")
         movie.type = request.form.get("type")
+        movie.quality = request.form.get("quality")
+        movie.trailer_url = request.form.get("trailer_url")
+
         try:
             movie.price = float(request.form.get("price"))
+            movie.rating = (
+                float(request.form.get("rating"))
+                if request.form.get("rating")
+                else None
+            )
+            movie.year = (
+                int(request.form.get("year")) if request.form.get("year") else None
+            )
+            movie.time_watching = (
+                int(request.form.get("time_watching"))
+                if request.form.get("time_watching")
+                else None
+            )
+            movie.chair_number = (
+                int(request.form.get("chair_number"))
+                if request.form.get("chair_number")
+                else None
+            )
         except ValueError:
-            return "Price must be a number.", 400
-        movie.quality = request.form.get("quality")
+            flash(
+                "Price, Rating, Year, Time Watching, and Chair Number must be numbers."
+            )
+            return redirect(url_for("movie_fr_bp.edit_movie", movie_id=movie_id))
+
+        movie.director = request.form.get("director")
+        movie.role = request.form.get("role")
+        movie.hall_name = request.form.get("hall_name")
+
         db.session.commit()
-        return redirect(url_for("movie_fr_bp.home"))
+        flash("Movie updated successfully!")
+        return redirect(url_for("movie_fr_bp.view_movie", movie_id=movie_id))
+
     return render_template("edit-movie.html", movie=movie)
 
 
@@ -120,7 +172,8 @@ def delete_movie(movie_id):
     movie = Movie.query.get_or_404(movie_id)
     db.session.delete(movie)
     db.session.commit()
-    return redirect(url_for("movie_fr_bp.home"))
+    flash("Movie deleted successfully!")
+    return redirect(url_for("movie_fr_bp.list_movies"))
 
 
 # Search movies
@@ -149,40 +202,74 @@ def view_movie(movie_id):
 
 
 # -----------------------------
-# Image Upload Route
+# Image Upload
 # -----------------------------
 @movie_fr_bp.route("/movies/<int:movie_id>/upload-image", methods=["POST"])
 def upload_image(movie_id):
     file = request.files.get("image")
-
     if not file or file.filename == "":
-        flash("No file selected")
+        flash("No image selected")
         return redirect(url_for("movie_fr_bp.view_movie", movie_id=movie_id))
 
-    if not allowed_file(file.filename):
-        flash("File type not allowed. Allowed: " + ", ".join(ALLOWED_EXTENSIONS))
+    if not allowed_image_file(file.filename):
+        flash("Invalid image type. Allowed: " + ", ".join(ALLOWED_IMAGE_EXTENSIONS))
         return redirect(url_for("movie_fr_bp.view_movie", movie_id=movie_id))
 
     filename = secure_filename(file.filename)
     upload_folder = os.path.join(current_app.static_folder, "images")
     os.makedirs(upload_folder, exist_ok=True)
 
-    # Prefix with movie id to avoid overwriting
+    # Prefix with movie_id to avoid overwriting
     name, ext = os.path.splitext(filename)
     filename = f"{movie_id}_{name}{ext}"
     file_path = os.path.join(upload_folder, filename)
     file.save(file_path)
 
-    # Update movie record
     movie = Movie.query.get(movie_id)
     if movie:
-        # Remove old image if exists
-        if movie.image:
+        if movie.image and movie.image != filename:
             old_path = os.path.join(upload_folder, movie.image)
-            if os.path.exists(old_path) and movie.image != filename:
+            if os.path.exists(old_path):
                 os.remove(old_path)
         movie.image = filename
         db.session.commit()
 
     flash("Image uploaded successfully")
+    return redirect(url_for("movie_fr_bp.view_movie", movie_id=movie_id))
+
+
+# -----------------------------
+# Trailer Upload
+# -----------------------------
+@movie_fr_bp.route("/movies/<int:movie_id>/upload-trailer", methods=["POST"])
+def upload_trailer(movie_id):
+    file = request.files.get("trailer_file")
+    if not file or file.filename == "":
+        flash("No trailer selected")
+        return redirect(url_for("movie_fr_bp.view_movie", movie_id=movie_id))
+
+    if not allowed_video_file(file.filename):
+        flash("Invalid video type. Allowed: " + ", ".join(ALLOWED_VIDEO_EXTENSIONS))
+        return redirect(url_for("movie_fr_bp.view_movie", movie_id=movie_id))
+
+    filename = secure_filename(file.filename)
+    upload_folder = os.path.join(current_app.static_folder, "trailers")
+    os.makedirs(upload_folder, exist_ok=True)
+
+    # Prefix with movie_id to avoid overwriting
+    name, ext = os.path.splitext(filename)
+    filename = f"{movie_id}_{name}{ext}"
+    file_path = os.path.join(upload_folder, filename)
+    file.save(file_path)
+
+    movie = Movie.query.get(movie_id)
+    if movie:
+        if movie.trailer_file and movie.trailer_file != filename:
+            old_path = os.path.join(upload_folder, movie.trailer_file)
+            if os.path.exists(old_path):
+                os.remove(old_path)
+        movie.trailer_file = filename
+        db.session.commit()
+
+    flash("Trailer uploaded successfully")
     return redirect(url_for("movie_fr_bp.view_movie", movie_id=movie_id))

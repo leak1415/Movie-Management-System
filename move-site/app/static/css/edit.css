@@ -1,118 +1,95 @@
-/* ===== Page & Form container (dark mode) ===== */
+/* Body & container */
 body {
-  font-family: Arial, sans-serif;
-  background-color: #121212;
-  margin: 0;
-  color: #f0f0f0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  padding: 20px;
+    background-color: #0b0c10; /* cinematic dark */
+    color: #e0e0e0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 20px;
 }
 
-/* ===== Edit container ===== */
 .edit-container {
-  background-color: #1e1e1e;
-  padding: 28px 36px;
-  border-radius: 12px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
-  width: 800px; /* wider for two-column layout */
-  box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding-top: 20px;
 }
 
-/* Heading */
 .edit-container h1 {
-  text-align: center;
-  margin-bottom: 24px;
-  color: #ffffff;
-  font-size: 1.8rem;
+    font-size: 2rem;
+    margin-bottom: 25px;
+    background: linear-gradient(90deg, #ff6f61, #ffb347);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
-/* ===== Form layout: two columns ===== */
+/* Form layout: two columns */
 .edit-form {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px 30px;
+    background: rgba(30, 30, 30, 0.95);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 0 30px rgba(255, 111, 97, 0.7);
+    max-width: 800px;
+    width: 100%;
 }
 
-/* Each field container */
+/* Form fields */
 .form-field {
-  flex: 1 1 calc(50% - 10px); /* two fields per row with spacing */
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 
-/* Label above input */
 .form-field label {
-  font-weight: 700;
-  color: #dcdcdc;
-  margin-bottom: 6px;
-  font-size: 0.95rem;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #ff6f61;
 }
 
-/* Inputs styling */
-.form-field input,
-.edit-form select,
-.edit-form textarea {
-  background-color: #2c2c2c;
-  color: #f5f5f5;
-  padding: 10px 12px;
-  border: 1px solid #444;
-  border-radius: 8px;
-  font-size: 0.95rem;
-  box-sizing: border-box;
-  transition: border-color 0.15s, background-color 0.15s;
+.form-field input {
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: none;
+    background: #1e1e1e;
+    color: #fff;
+    font-size: 1rem;
+    transition: all 0.3s;
 }
 
-/* Focus state */
-.form-field input:focus,
-.edit-form select:focus,
-.edit-form textarea:focus {
-  outline: none;
-  border-color: #4dabf7;
-  background-color: #333;
-  box-shadow: 0 0 0 3px rgba(77, 173, 247, 0.08);
+.form-field input:focus {
+    outline: none;
+    box-shadow: 0 0 10px rgba(255, 111, 97, 0.7);
 }
 
-/* Buttons */
+/* Submit button */
 .btn-update {
-  width: 100%;
-  background-color: #1f6feb;
-  color: #fff;
-  padding: 12px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 700;
-  font-size: 1rem;
-  margin-top: 16px;
-  transition: background-color 0.18s;
+    grid-column: 1 / -1; /* span both columns */
+    padding: 12px 20px;
+    background: #ff6f61;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.2rem;
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.3s;
 }
+
 .btn-update:hover {
-  background-color: #1158c7;
+    background: #ffb347;
 }
 
 /* Back link */
 .back-link {
-  display: block;
-  text-align: center;
-  margin-top: 14px;
-  color: #58a6ff;
-  text-decoration: none;
-  font-weight: 700;
-}
-.back-link:hover {
-  text-decoration: underline;
+    display: inline-block;
+    margin-top: 20px;
+    color: #ff6f61;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
 }
 
-/* Responsive: single column on small screens */
-@media (max-width: 768px) {
-  .edit-container {
-    width: 94%;
-    padding: 20px;
-  }
-  .form-field {
-    flex: 1 1 100%;
-  }
+.back-link:hover {
+    color: #ffb347;
 }
